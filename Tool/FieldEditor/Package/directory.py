@@ -6,21 +6,21 @@ class Directory():
         self._directoryDic = {}
 
         if platform.system() == "Darwin": # Mac OS
-            self._directoryDic[EDirectoryType.inputDir] = "../../Game/DataSheet/"
-            self._directoryDic[EDirectoryType.outputDir] = "../../Game/DataSheet/"
+            self._directoryDic[EDirectoryType.inputDir] = "Game/DataSheet/"
+            self._directoryDic[EDirectoryType.outputDir] = "Game/DataSheet/"
 
         else: # other OS (Windows.)
-            self._directoryDic[EDirectoryType.inputDir] = "..\\..\\Game\\DataSheet\\"
-            self._directoryDic[EDirectoryType.outputDir] = "..\\..\\Game\\DataSheet\\"
+            self._directoryDic[EDirectoryType.inputDir] = "Game\\DataSheet\\"
+            self._directoryDic[EDirectoryType.outputDir] = "Game\\DataSheet\\"
 
     def Init_Directory(self):
         if platform.system() == "Darwin": # Mac OS
-            self._directoryDic[EDirectoryType.inputDir] = "../../Game/DataSheet/"
-            self._directoryDic[EDirectoryType.outputDir] = "../../Game/DataSheet/"
+            self._directoryDic[EDirectoryType.inputDir] = "Game/DataSheet/"
+            self._directoryDic[EDirectoryType.outputDir] = "Game/DataSheet/"
 
         else: # other OS (Windows.)
-            self._directoryDic[EDirectoryType.inputDir] = "..\\..\\Game\\DataSheet\\"
-            self._directoryDic[EDirectoryType.outputDir] = "..\\..\\Game\\DataSheet\\"
+            self._directoryDic[EDirectoryType.inputDir] = "Game\\DataSheet\\"
+            self._directoryDic[EDirectoryType.outputDir] = "Game\\DataSheet\\"
 
     def Get_Directory(self, _directoryType):
         try:
