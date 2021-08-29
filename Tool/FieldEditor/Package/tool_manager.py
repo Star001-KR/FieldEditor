@@ -195,6 +195,37 @@ class ToolManager(Directory):
             self._fieldGroup[fieldGroupNum].Set_TileWithTableData(self._tileDic)
 
 
+    def Init_ToolManager(self):
+        # init excel file name, excel file full directory(original data, copy data).
+        self._fileName = {
+            EDataTable.FieldGroup : "FieldGroup.xlsx", 
+            EDataTable.Tile : "FieldTile.xlsx"
+        }
+        self._fileFullName = {
+            EDataTable.FieldGroup : self._directoryDic[EDirectoryType.inputDir] + self._fileName[EDataTable.FieldGroup],
+            EDataTable.Tile : self._directoryDic[EDirectoryType.inputDir] + self._fileName[EDataTable.Tile]
+        }
+        self._tempFileFullName = {
+            EDataTable.FieldGroup : self._directoryDic[EDirectoryType.inputDir] + "_" +self._fileName[EDataTable.FieldGroup],
+            EDataTable.Tile : self._directoryDic[EDirectoryType.inputDir] + "_" + self._fileName[EDataTable.Tile]
+        }
+
+        # copy excel file. (use to initialize field group data.)
+        shutil.copy2(self._fileFullName[EDataTable.FieldGroup], self._tempFileFullName[EDataTable.FieldGroup])
+        shutil.copy2(self._fileFullName[EDataTable.Tile], self._tempFileFullName[EDataTable.Tile])
+
+        # copy excel data in target sheet (self.dataSheetName).
+        (self._fieldGroupDic,   self._fieldGroupKeyList)    = Copy_ExcelDataToLib(self._fileFullName[EDataTable.FieldGroup], self.dataSheetName)    
+        (self._tileDic,         self._tileKeyList)          = Copy_ExcelDataToLib(self._fileFullName[EDataTable.Tile], self.dataSheetName)
+        
+        # excluding column name row and data tpye row. (=2)
+        self._fieldGroupCount = len(self._fieldGroupKeyList) > 2 and len(self._fieldGroupKeyList) - 2 or False
+        self._fieldGroup = []
+        for fieldGroupNum in range(0, self._fieldGroupCount):
+            self._fieldGroup.append(FieldGroup(self._fieldGroupKeyList[fieldGroupNum + 2]))
+            self._fieldGroup[fieldGroupNum].Set_TileWithTableData(self._tileDic)
+
+
     def __del__(self):
         # delete temp excel file.
         os.remove(self._tempFileFullName[EDataTable.FieldGroup])

@@ -1,5 +1,7 @@
 from Package.tool_manager import *
 from tkinter import *
+from tkinter import filedialog
+import platform
 
 class MainScreen():
     # tool manager.
@@ -138,6 +140,18 @@ class MainScreen():
 
         self.btn_Save = Button(self.frame_Buttons, text = "Save", width = 20, height = 2, command = self.__Press_btn_Save)
         self.btn_Save.grid(row = 1, column = 0)
+
+        # Buttons (1, 0) - Dir Setting.
+        self.frame_DirSetting = LabelFrame(self.frameGroup_Buttons, text = "Directory Setting")
+        self.frame_DirSetting.grid(row = 1, column = 0)
+
+        self.btn_inputDir = Button(self.frame_DirSetting, text = "Input Dir", width = 20, height = 2, 
+            command = lambda isInput = True : self.__Press_btn_dirSetting(isInput))
+        self.btn_inputDir.grid(row = 0, column = 0)
+
+        self.btn_inputDir = Button(self.frame_DirSetting, text = "Output Dir", width = 20, height = 2, 
+            command = lambda isInput = False : self.__Press_btn_dirSetting(isInput))
+        self.btn_inputDir.grid(row = 1, column = 0)
 
 
     [classmethod]
@@ -385,3 +399,19 @@ class MainScreen():
 
         else:
             self.label_validateResult["fg"] = "red"
+
+
+    # change directory. (need field group data table, field tile data table in directory.)
+    def __Press_btn_dirSetting(self, isInput):
+        if not type(isInput) == bool:
+            print("isInput's value type is not bool type.")
+            
+            return
+
+        _tempDir = filedialog.askdirectory()
+        _tempDir += (platform.system() == "Darwin") and "/" or "\\"
+
+        _tempDirType = (isInput) and EDirectoryType.inputDir or EDirectoryType.outputDir
+
+        self.FieldEditorManager.Set_Directory(_tempDirType, _tempDir)
+        self.FieldEditorManager.Init_ToolManager()
