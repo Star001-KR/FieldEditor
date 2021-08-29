@@ -21,16 +21,14 @@
 
 
     > Buttons 영역 (화면 우측)
+
+
         * Reset 버튼을 통해 툴을 처음 시작했던 상태로 필드 그룹 및 타일 상태를 되돌릴 수 있습니다. (저장을 했더라도 그 이전으로 돌릴 수 있습니다.)
         * Save 버튼을 통해 작업중인 정보를 데이터 테이블에 반영(저장) 할 수 있습니다.
 
 - 파일 경로 안내
-    > 샘플 데이터 테이블 경로 : Game/DataSheet/
-
-    
-    > 툴 실행용 파이썬 파일 경로 : Tool/FieldEditor/FieldEditor.py
-
-
+    > 샘플 데이터 테이블 경로 : Game/DataSheet/  
+    > 툴 실행용 파이썬 파일 경로 : Tool/FieldEditor/FieldEditor.py  
     > 툴 모듈화에 사용한 패키지 파이썬 파일 경로 : Tool/FieldEditor/Package
 
 
@@ -45,13 +43,7 @@
     > openpyxl (3.0.7) : 파이썬에서 엑셀 파일을 읽고 쓰는데 사용
 
 - 사용 import 리스트
-    > platform : 툴을 사용중인 OS 환경 체크에 사용
-
-
-    > shutil : 테이블 데이터 파일 복사에 사용
-
-
-    > os : 임시 파일 생성 및 제거에 사용
-
-
+    > platform : 툴을 사용중인 OS 환경 체크에 사용  
+    > shutil : 테이블 데이터 파일 복사에 사용  
+    > os : 임시 파일 생성 및 제거에 사용  
     > tkinter : gui 설계에 사용
