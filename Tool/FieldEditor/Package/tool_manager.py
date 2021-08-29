@@ -8,8 +8,10 @@ class ToolManager(Directory):
     dataSheetName = "Sheet1"
 
     def __init__(self):
+        # init directory.
         super().__init__()
         
+        # init excel file name, excel file full directory(original data, copy data).
         self._fileName = {
             EDataTable.FieldGroup : "FieldGroup.xlsx", 
             EDataTable.Tile : "FieldTile.xlsx"
@@ -39,6 +41,7 @@ class ToolManager(Directory):
             self._fieldGroup[fieldGroupNum].Set_TileWithTableData(self._tileDic)
 
 
+    # add new field group.
     def Add_FieldGroup(self, fieldGroupName):
         self._fieldGroupCount += 1
 
@@ -51,6 +54,7 @@ class ToolManager(Directory):
             self._fieldGroup.append(FieldGroup(str(fieldGroupName)))
 
 
+    # delete selected field group.
     def Del_FieldGroup(self, fieldGroup):
         self._fieldGroupCount -= 1
 
@@ -79,6 +83,7 @@ class ToolManager(Directory):
             return "wrong data type input at field group factor."
 
 
+    # field group position change. (selected direction)
     def Swap_FieldGroupPos(self, Pos1, Pos2):
         if (not type(Pos1) == int) | (not type(Pos2) == int):
             return
@@ -90,14 +95,17 @@ class ToolManager(Directory):
             self._fieldGroup[Pos2] = _tempFieldGroup
 
 
+    # return field group count.
     def Get_FieldGroupCount(self):
         return self._fieldGroupCount
 
 
+    # return field group key list.
     def Get_FieldGroupKeyList(self):
         return self._fieldGroupKeyList
 
 
+    # return tiletype. (selected tile position (posX, posY))
     def Get_FieldData(self, fieldGroup, posX, posY):
         if type(fieldGroup) == int:
             if fieldGroup > len(self._fieldGroup):
@@ -119,6 +127,7 @@ class ToolManager(Directory):
             return "wrong data type input at field group factor."
         
 
+    # save tool data to excel data.
     def Save_ToolDataToExcel(self):
         DATA_HEAD_ROW_COUNT = 2
         TILE_INPUT_ROW_NUM = 2
@@ -162,6 +171,7 @@ class ToolManager(Directory):
         Copy_LibToExcelData(self._fileFullName[EDataTable.Tile], _fieldTileLib, self.dataSheetName)
 
 
+    # init excel data to tool start state. (use temp excel file.)
     def Init_ExcelData(self):
         os.remove(self._fileFullName[EDataTable.FieldGroup])
         os.remove(self._fileFullName[EDataTable.Tile])
@@ -186,5 +196,6 @@ class ToolManager(Directory):
 
 
     def __del__(self):
+        # delete temp excel file.
         os.remove(self._tempFileFullName[EDataTable.FieldGroup])
         os.remove(self._tempFileFullName[EDataTable.Tile])
