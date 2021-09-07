@@ -88,71 +88,43 @@ class FieldGroup():
 
             # left tile check.
             if _tempPos[0] > 0:
-                if (_tempPos[0] - 1, _tempPos[1]) in checkCompleteData:
-                    pass
-
-                elif self._tilelist[_tempPos[0] - 1][_tempPos[1]].Get_TileType()[0] == ETileType.Monster:
-                    checkWaitingData.append((_tempPos[0] - 1, _tempPos[1]))
-
-                    if self._tilelist[_tempPos[0] - 1][_tempPos[1]].Get_TileType()[1] == EMonsterTileType.Goal:
-                        if isFindGoal:
-                            return False
-
-                        isFindGoal = True
-
-                    elif self._tilelist[_tempPos[0] - 1][_tempPos[1]].Get_TileType()[1] == EMonsterTileType.Start:
-                        return False
+                _findTileResult = self.__FindNewCheckTile(checkWaitingData, checkCompleteData, isFindGoal, _tempPos[0] - 1, _tempPos[1])
+                
+                if (type(_findTileResult) == bool) & (not _findTileResult):
+                    return False
+                
+                elif (type(_findTileResult) == tuple):
+                    (checkWaitingData, isFindGoal) = (_findTileResult[0], _findTileResult[1])
 
             # right tile check.
             if _tempPos[0] < self.tileSize[0] - 1:
-                if (_tempPos[0] + 1, _tempPos[1]) in checkCompleteData:
-                    pass
-
-                elif self._tilelist[_tempPos[0] + 1][_tempPos[1]].Get_TileType()[0] == ETileType.Monster:
-                    checkWaitingData.append((_tempPos[0] + 1, _tempPos[1]))
-
-                    if self._tilelist[_tempPos[0] + 1][_tempPos[1]].Get_TileType()[1] == EMonsterTileType.Goal:
-                        if isFindGoal:
-                            return False
-
-                        isFindGoal = True
-
-                    elif self._tilelist[_tempPos[0] + 1][_tempPos[1]].Get_TileType()[1] == EMonsterTileType.Start:
-                        return False
+                _findTileResult = self.__FindNewCheckTile(checkWaitingData, checkCompleteData, isFindGoal, _tempPos[0] + 1, _tempPos[1])
+                
+                if (type(_findTileResult) == bool) & (not _findTileResult):
+                    return False
+                
+                elif (type(_findTileResult) == tuple):
+                    (checkWaitingData, isFindGoal) = (_findTileResult[0], _findTileResult[1])
 
             # under tile check.
             if _tempPos[1] > 0:
-                if (_tempPos[0], _tempPos[1] - 1) in checkCompleteData:
-                    pass
-
-                elif self._tilelist[_tempPos[0]][_tempPos[1] - 1].Get_TileType()[0] == ETileType.Monster:
-                    checkWaitingData.append((_tempPos[0], _tempPos[1] - 1))
-
-                    if self._tilelist[_tempPos[0]][_tempPos[1] - 1].Get_TileType()[1] == EMonsterTileType.Goal:
-                        if isFindGoal:
-                            return False
-
-                        isFindGoal = True
-
-                    elif self._tilelist[_tempPos[0]][_tempPos[1] - 1].Get_TileType()[1] == EMonsterTileType.Start:
-                        return False
+                _findTileResult = self.__FindNewCheckTile(checkWaitingData, checkCompleteData, isFindGoal, _tempPos[0], _tempPos[1] - 1)
+                
+                if (type(_findTileResult) == bool) & (not _findTileResult):
+                    return False
+                
+                elif (type(_findTileResult) == tuple):
+                    (checkWaitingData, isFindGoal) = (_findTileResult[0], _findTileResult[1])
 
             # upper tile check.
             if _tempPos[1] < self.tileSize[1] - 1:
-                if (_tempPos[0], _tempPos[1] + 1) in checkCompleteData:
-                    pass
-
-                elif self._tilelist[_tempPos[0]][_tempPos[1] + 1].Get_TileType()[0] == ETileType.Monster:
-                    checkWaitingData.append((_tempPos[0], _tempPos[1] + 1))
-
-                    if self._tilelist[_tempPos[0]][_tempPos[1] + 1].Get_TileType()[1] == EMonsterTileType.Goal:
-                        if isFindGoal:
-                            return False
-
-                        isFindGoal = True
-
-                    elif self._tilelist[_tempPos[0]][_tempPos[1] + 1].Get_TileType()[1] == EMonsterTileType.Start:
-                        return False
+                _findTileResult = self.__FindNewCheckTile(checkWaitingData, checkCompleteData, isFindGoal, _tempPos[0], _tempPos[1] + 1)
+                
+                if (type(_findTileResult) == bool) & (not _findTileResult):
+                    return False
+                
+                elif (type(_findTileResult) == tuple):
+                    (checkWaitingData, isFindGoal) = (_findTileResult[0], _findTileResult[1])
 
             checkCompleteData.append(_tempPos)
 
@@ -169,6 +141,25 @@ class FieldGroup():
         else:
             return False
 
+
+    def __FindNewCheckTile(self, _checkWaitingData, _checkCompleteData, _isFindGoal, _posX, _posY):        
+        if (_posX, _posY) in _checkCompleteData:
+            return True
+
+        elif self._tilelist[_posX][_posY].Get_TileType()[0] == ETileType.Monster:
+            _checkWaitingData.append((_posX, _posY))
+
+            if self._tilelist[_posX][_posY].Get_TileType()[1] == EMonsterTileType.Goal:
+                if _isFindGoal:
+                    return False
+
+                _isFindGoal = True
+
+            elif self._tilelist[_posX][_posY].Get_TileType()[1] == EMonsterTileType.Start:
+                return False
+
+            return (_checkWaitingData, _isFindGoal)
+    
 
     @classmethod
     def GetTileSize(cls):
